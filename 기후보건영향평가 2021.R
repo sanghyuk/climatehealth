@@ -1,6 +1,6 @@
 raw<-read.csv(file="D:/Dropbox/기후보건영향평가/2021년/자료/raw.csv")
 head(raw)
-raw1<-subset(raw,year>2005)
+raw1<-subset(raw,year>2009)
 head(raw1)
 raw1$no2_ppb<-raw1$no2*1000
 head(raw1$no2_ppb)
@@ -22,7 +22,57 @@ allpoll<-raw1 %>%
   summarise(across(c(pm10,pm25,pm25_model,o3_ppb), mean,na.rm=T))
 write.csv(allpoll, file="D:/Dropbox/기후보건영향평가/2021년/결과/allpoll.csv")
 
-#오존 총사망
+#CRF 용 데이터셋 (7개 대도시)
+seoul<-subset(raw1,sido==11)
+busan<-subset(raw1,sido==26)
+daegu<-subset(raw1,sido==27)
+incheon<-subset(raw1,sido==28)
+daejon<-subset(raw1,sido==29)
+gwangju<-subset(raw1,sido==30)
+ulsan<-subset(raw1,sido==31)
+library(HEAT)
+seoul_l<-lagdata(seoul,c("o3_ppb","meantemp","maxtemp","pm25"),28)
+busan_l<-lagdata(busan,c("o3_ppb","meantemp","maxtemp","pm25"),28)
+daegu_l<-lagdata(daegu,c("o3_ppb","meantemp","maxtemp","pm25"),28)
+incheon_l<-lagdata(incheon,c("o3_ppb","meantemp","maxtemp","pm25"),28)
+daejon_l<-lagdata(daejon,c("o3_ppb","meantemp","maxtemp","pm25"),28)
+gwangju_l<-lagdata(gwangju,c("o3_ppb","meantemp","maxtemp","pm25"),28)
+ulsan_l<-lagdata(ulsan,c("o3_ppb","meantemp","maxtemp","pm25"),28)
+
+seoul_l$ddd<-1:3652
+busan_l$ddd<-1:3652
+daegu_l$ddd<-1:3652
+incheon_l$ddd<-1:3652
+daejon_l$ddd<-1:3652
+ulsan_l$ddd<-1:3652
+gwangju_l$ddd<-1:3652
+
+raw2<-rbind(seoul_l,busan_l,daegu_l,incheon_l,daejon_l,gwangju_l,ulsan_l)
+raw2$dow<-as.factor(raw2$dow)
+raw2$f_sido<-as.factor(raw2$sido)
+#오존 CRF
+library(gamm4)
+fit.o3.l0<-gamm4(nonacc_tot~o3_ppb+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(fit.o3.l0$gam)
+fit.o3.l1<-gamm4(nonacc_tot~o3_ppb_s1+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(fit.o3.l1$gam)
+fit.o3.l2<-gamm4(nonacc_tot~o3_ppb_s2+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(fit.o3.l2$gam)
+fit.o3.l3<-gamm4(nonacc_tot~o3_ppb_s3+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(fit.o3.l3$gam)
+fit.o3.l4<-gamm4(nonacc_tot~o3_ppb_s4+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(fit.o3.l4$gam)
+fit.o3.l5<-gamm4(nonacc_tot~o3_ppb_s5+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(fit.o3.l5$gam)
+fit.o3.l6<-gamm4(nonacc_tot~o3_ppb_s6+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(fit.o3.l6$gam)
+fit.o3.l7<-gamm4(nonacc_tot~o3_ppb_s7+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(fit.o3.l7$gam)
+
+# 비사고 총 사망 
+
+
+#오존 총사망 초과 사망
 raw1$bgo3diff<-raw1$o3_ppb-30
 raw1$bgo3diff<-ifelse(raw1$bgo3diff>0,raw1$bgo3diff,0)
 raw1$excessm_o3bg<-raw1$bgo3diff*raw1$nonacc_tot*0.000376629
