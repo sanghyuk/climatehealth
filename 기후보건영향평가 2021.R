@@ -138,3 +138,6 @@ library(plyr)
 ex_bg<-ddply(raw1.lag,~area+year,summarise,BG=sum(excessm_o3bg,na.rm=T),BG_LL=sum(excessm_o3bg_LL,na.rm=T),BG_UL=sum(excessm_o3bg_UL,na.rm=T))
 ex_bg<-subset(ex_bg,year>2009)
 write.csv(ex_bg,file="D:/Dropbox/기후보건영향평가/2021년/결과/o3exm.csv")
+
+#PM2.5 단기CRF
+#총사망
