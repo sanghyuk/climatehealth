@@ -129,6 +129,7 @@ raw.sub49<-lagdata(raw.sub49,c("o3_ppb","meantemp","maxtemp","pm25"),7)
 raw.sub50<-lagdata(raw.sub50,c("o3_ppb","meantemp","maxtemp","pm25"),7)
 
 raw1.lag<-rbind(raw.sub11,raw.sub26,raw.sub27,raw.sub28,raw.sub29,raw.sub30,raw.sub31,raw.sub41,raw.sub42,raw.sub43,raw.sub44,raw.sub45,raw.sub46,raw.sub47,raw.sub48,raw.sub49,raw.sub50)
+
 raw1.lag$bgo3diff<-raw1.lag$o3_ppb_m5-30
 raw1.lag$bgo3diff<-ifelse(raw1.lag$bgo3diff>0,raw1.lag$bgo3diff,0)
 raw1.lag$excessm_o3bg<-raw1.lag$bgo3diff*raw1.lag$nonacc_tot*0.000750119
@@ -141,3 +142,38 @@ write.csv(ex_bg,file="D:/Dropbox/기후보건영향평가/2021년/결과/o3exm.c
 
 #PM2.5 단기CRF
 #총사망
+library(gamm4)
+pm25.l0<-gamm4(all_tot~pm25+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(pm25.l0$gam)
+gc()
+pm25.l1<-gamm4(all_tot~pm25_s1+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(pm25.l1$gam)
+pm25.l2<-gamm4(all_tot~pm25_s2+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(pm25.l2$gam)
+pm25.l3<-gamm4(all_tot~pm25_s3+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(pm25.l3$gam)
+pm25.l4<-gamm4(all_tot~pm25_s4+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(pm25.l4$gam)
+pm25.l5<-gamm4(all_tot~pm25_s5+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(pm25.l5$gam)
+pm25.l6<-gamm4(all_tot~pm25_s6+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(pm25.l6$gam)
+pm25.l7<-gamm4(all_tot~pm25_s7+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(pm25.l7$gam)
+
+pm25.m1<-gamm4(all_tot~pm25_m1+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(pm25.m1$gam)
+pm25.m2<-gamm4(all_tot~pm25_m2+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(pm25.m2$gam)
+pm25.m3<-gamm4(all_tot~pm25_m3+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(pm25.m3$gam)
+pm25.m4<-gamm4(all_tot~pm25_m4+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(pm25.m4$gam)
+pm25.m5<-gamm4(all_tot~pm25_m5+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(pm25.m5$gam)
+pm25.m6<-gamm4(all_tot~pm25_m6+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(pm25.m6$gam)
+pm25.m7<-gamm4(all_tot~pm25_m7+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(pm25.m7$gam)
+
+#산출된 CRF 가 모두 음수이므로 당해년도에 산출한 CRF는 초과발생건수 추산에 적합하지 않음.
