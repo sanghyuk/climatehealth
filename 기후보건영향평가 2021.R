@@ -69,16 +69,72 @@ summary(fit.o3.l6$gam)
 fit.o3.l7<-gamm4(nonacc_tot~o3_ppb_s7+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
 summary(fit.o3.l7$gam)
 
-# 비사고 총 사망 
+fit.o3.m1<-gamm4(nonacc_tot~o3_ppb_m1+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(fit.o3.m1$gam)
+fit.o3.m2<-gamm4(nonacc_tot~o3_ppb_m2+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(fit.o3.m2$gam)
+fit.o3.m3<-gamm4(nonacc_tot~o3_ppb_m3+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(fit.o3.m3$gam)
+fit.o3.m4<-gamm4(nonacc_tot~o3_ppb_m4+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(fit.o3.m4$gam)
+fit.o3.m5<-gamm4(nonacc_tot~o3_ppb_m5+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(fit.o3.m5$gam)
+fit.o3.m6<-gamm4(nonacc_tot~o3_ppb_m6+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(fit.o3.m6$gam)
+fit.o3.m7<-gamm4(nonacc_tot~o3_ppb_m7+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhumi+dow+s(ddd,k=4*10),data=raw2,family=poisson(),random=~(1|f_sido))
+summary(fit.o3.m7$gam)
 
+#오존 비사고 총사망 초과 사망
+#초과 사망용 데이터셋 구성
+raw1$area<-as.factor(raw1$area)
+summary(raw1$area)
+summary(raw1$sido)
+raw1$sido_f<-as.factor(raw1$sido)
+summary(raw1$sido_f)
 
-#오존 총사망 초과 사망
-raw1$bgo3diff<-raw1$o3_ppb-30
-raw1$bgo3diff<-ifelse(raw1$bgo3diff>0,raw1$bgo3diff,0)
-raw1$excessm_o3bg<-raw1$bgo3diff*raw1$nonacc_tot*0.000376629
-raw1$excessm_o3bg_LL<-raw1$bgo3diff*raw1$nonacc_tot*0.000206335
-raw1$excessm_o3bg_UL<-raw1$bgo3diff*raw1$nonacc_tot*0.000546894
+raw.sub11<-subset(raw1,raw1$sido==11)
+raw.sub26<-subset(raw1,raw1$sido==26)
+raw.sub27<-subset(raw1,raw1$sido==27)
+raw.sub28<-subset(raw1,raw1$sido==28)
+raw.sub29<-subset(raw1,raw1$sido==29)
+raw.sub30<-subset(raw1,raw1$sido==30)
+raw.sub31<-subset(raw1,raw1$sido==31)
+raw.sub41<-subset(raw1,raw1$sido==41)
+raw.sub42<-subset(raw1,raw1$sido==42)
+raw.sub43<-subset(raw1,raw1$sido==43)
+raw.sub44<-subset(raw1,raw1$sido==44)
+raw.sub45<-subset(raw1,raw1$sido==45)
+raw.sub46<-subset(raw1,raw1$sido==46)
+raw.sub47<-subset(raw1,raw1$sido==47)
+raw.sub48<-subset(raw1,raw1$sido==48)
+raw.sub49<-subset(raw1,raw1$sido==49)
+raw.sub50<-subset(raw1,raw1$sido==50)
+
+raw.sub11<-lagdata(raw.sub11,c("o3_ppb","meantemp","maxtemp","pm25"),7)
+raw.sub26<-lagdata(raw.sub26,c("o3_ppb","meantemp","maxtemp","pm25"),7)
+raw.sub27<-lagdata(raw.sub27,c("o3_ppb","meantemp","maxtemp","pm25"),7)
+raw.sub28<-lagdata(raw.sub28,c("o3_ppb","meantemp","maxtemp","pm25"),7)
+raw.sub29<-lagdata(raw.sub29,c("o3_ppb","meantemp","maxtemp","pm25"),7)
+raw.sub30<-lagdata(raw.sub30,c("o3_ppb","meantemp","maxtemp","pm25"),7)
+raw.sub31<-lagdata(raw.sub31,c("o3_ppb","meantemp","maxtemp","pm25"),7)
+raw.sub41<-lagdata(raw.sub41,c("o3_ppb","meantemp","maxtemp","pm25"),7)
+raw.sub42<-lagdata(raw.sub42,c("o3_ppb","meantemp","maxtemp","pm25"),7)
+raw.sub43<-lagdata(raw.sub43,c("o3_ppb","meantemp","maxtemp","pm25"),7)
+raw.sub44<-lagdata(raw.sub44,c("o3_ppb","meantemp","maxtemp","pm25"),7)
+raw.sub45<-lagdata(raw.sub45,c("o3_ppb","meantemp","maxtemp","pm25"),7)
+raw.sub46<-lagdata(raw.sub46,c("o3_ppb","meantemp","maxtemp","pm25"),7)
+raw.sub47<-lagdata(raw.sub47,c("o3_ppb","meantemp","maxtemp","pm25"),7)
+raw.sub48<-lagdata(raw.sub48,c("o3_ppb","meantemp","maxtemp","pm25"),7)
+raw.sub49<-lagdata(raw.sub49,c("o3_ppb","meantemp","maxtemp","pm25"),7)
+raw.sub50<-lagdata(raw.sub50,c("o3_ppb","meantemp","maxtemp","pm25"),7)
+
+raw1.lag<-rbind(raw.sub11,raw.sub26,raw.sub27,raw.sub28,raw.sub29,raw.sub30,raw.sub31,raw.sub41,raw.sub42,raw.sub43,raw.sub44,raw.sub45,raw.sub46,raw.sub47,raw.sub48,raw.sub49,raw.sub50)
+raw1.lag$bgo3diff<-raw1.lag$o3_ppb_m5-30
+raw1.lag$bgo3diff<-ifelse(raw1.lag$bgo3diff>0,raw1.lag$bgo3diff,0)
+raw1.lag$excessm_o3bg<-raw1.lag$bgo3diff*raw1.lag$nonacc_tot*0.000750119
+raw1.lag$excessm_o3bg_LL<-raw1.lag$bgo3diff*raw1.lag$nonacc_tot*0.000462761
+raw1.lag$excessm_o3bg_UL<-raw1.lag$bgo3diff*raw1.lag$nonacc_tot*0.001037394
 library(plyr)
-ex_bg<-ddply(raw1,~area+year,summarise,BG=sum(excessm_o3bg,na.rm=T),BG_LL=sum(excessm_o3bg_LL,na.rm=T),BG_UL=sum(excessm_o3bg_UL,na.rm=T))
+ex_bg<-ddply(raw1.lag,~area+year,summarise,BG=sum(excessm_o3bg,na.rm=T),BG_LL=sum(excessm_o3bg_LL,na.rm=T),BG_UL=sum(excessm_o3bg_UL,na.rm=T))
 ex_bg<-subset(ex_bg,year>2009)
 write.csv(ex_bg,file="D:/Dropbox/기후보건영향평가/2021년/결과/o3exm.csv")
