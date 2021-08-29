@@ -177,3 +177,63 @@ pm25.m7<-gamm4(all_tot~pm25_m7+s(meantemp)+s(meantemp_m7)+s(meantemp_m14)+meanhu
 summary(pm25.m7$gam)
 
 #산출된 CRF 가 모두 음수이므로 당해년도에 산출한 CRF는 초과발생건수 추산에 적합하지 않음.
+
+#PM2.5 초과총사망
+raw1.lag$bgpm25diff<-raw1.lag$pm25_m1-2
+raw1.lag$bgpm25diff<-ifelse(raw1.lag$bgpm25diff>0,raw1.lag$bgpm25diff,0)
+raw1.lag$e_all_tot_pm25<-raw1.lag$bgpm25diff*raw1.lag$all_tot*((1.000337-1)/1.000337)
+raw1.lag$e_all_tot_pm25_LL<-raw1.lag$bgpm25diff*raw1.lag$all_tot*((1.000109-1)/1.000109)
+raw1.lag$e_all_tot_pm25_UL<-raw1.lag$bgpm25diff*raw1.lag$all_tot*((1.000564 -1)/1.000564 )
+library(plyr)
+e_all_tot_pm25<-ddply(raw1.lag,~area+year,summarise,BG=sum(e_all_tot_pm25,na.rm=T),BG_LL=sum(e_all_tot_pm25_LL,na.rm=T),BG_UL=sum(e_all_tot_pm25_UL,na.rm=T))
+e_all_tot_pm25<-subset(e_all_tot_pm25,year>2009)
+write.csv(e_all_tot_pm25,file="D:/Dropbox/기후보건영향평가/2021년/결과/pm_e_all_tot.csv")
+
+#PM2.5 초과 비사고총사망
+raw1.lag$e_nonacc_tot_pm25<-raw1.lag$bgpm25diff*raw1.lag$nonacc_tot*((1.000395 -1)/1.000395 )
+raw1.lag$e_nonacc_tot_pm25_LL<-raw1.lag$bgpm25diff*raw1.lag$nonacc_tot*((1.000117 -1)/1.000117 )
+raw1.lag$e_nonacc_tot_pm25_UL<-raw1.lag$bgpm25diff*raw1.lag$nonacc_tot*((1.000672  -1)/1.000672  )
+e_nonacc_tot_pm25<-ddply(raw1.lag,~area+year,summarise,BG=sum(e_nonacc_tot_pm25,na.rm=T),BG_LL=sum(e_nonacc_tot_pm25_LL,na.rm=T),BG_UL=sum(e_nonacc_tot_pm25_UL,na.rm=T))
+write.csv(e_nonacc_tot_pm25,file="D:/Dropbox/기후보건영향평가/2021년/결과/pm_e_nonacc_tot.csv")
+
+#PM2.5 초과 심뇌혈관질환 사망
+raw1.lag$e_circ_tot_pm25<-raw1.lag$bgpm25diff*raw1.lag$circ_tot*((1.000513  -1)/1.000513  )
+raw1.lag$e_circ_tot_pm25_LL<-raw1.lag$bgpm25diff*raw1.lag$circ_tot*((1.000170  -1)/1.000170  )
+raw1.lag$e_circ_tot_pm25_UL<-raw1.lag$bgpm25diff*raw1.lag$circ_tot*((1.000856   -1)/1.000856   )
+e_circ_tot_pm25<-ddply(raw1.lag,~area+year,summarise,BG=sum(e_circ_tot_pm25,na.rm=T),BG_LL=sum(e_circ_tot_pm25_LL,na.rm=T),BG_UL=sum(e_circ_tot_pm25_UL,na.rm=T))
+write.csv(e_circ_tot_pm25,file="D:/Dropbox/기후보건영향평가/2021년/결과/pm_e_circ_tot.csv")
+
+#PM2.5 초과 허혈성 심질환 사망
+raw1.lag$e_ischHD_tot_pm25<-raw1.lag$bgpm25diff*raw1.lag$ischHD_tot*((1.000601  -1)/1.000601  )
+raw1.lag$e_ischHD_tot_pm25_LL<-raw1.lag$bgpm25diff*raw1.lag$ischHD_tot*((1.000093  -1)/1.000093  )
+raw1.lag$e_ischHD_tot_pm25_UL<-raw1.lag$bgpm25diff*raw1.lag$ischHD_tot*((1.001108   -1)/1.001108   )
+e_ischHD_tot_pm25<-ddply(raw1.lag,~area+year,summarise,BG=sum(e_ischHD_tot_pm25,na.rm=T),BG_LL=sum(e_ischHD_tot_pm25_LL,na.rm=T),BG_UL=sum(e_ischHD_tot_pm25_UL,na.rm=T))
+write.csv(e_ischHD_tot_pm25,file="D:/Dropbox/기후보건영향평가/2021년/결과/pm_e_ischHD_tot.csv")
+
+#PM2.5 초과 심근경색 사망
+raw1.lag$e_MI_tot_pm25<-raw1.lag$bgpm25diff*raw1.lag$MI_tot*((1.000448-1)/1.000448)
+raw1.lag$e_MI_tot_pm25_LL<-raw1.lag$bgpm25diff*raw1.lag$MI_tot*((0.999918 -1)/0.999918 )
+raw1.lag$e_MI_tot_pm25_UL<-raw1.lag$bgpm25diff*raw1.lag$MI_tot*((1.000979 -1)/1.000979 )
+e_MI_tot_pm25<-ddply(raw1.lag,~area+year,summarise,BG=sum(e_MI_tot_pm25,na.rm=T),BG_LL=sum(e_MI_tot_pm25_LL,na.rm=T),BG_UL=sum(e_MI_tot_pm25_UL,na.rm=T))
+write.csv(e_MI_tot_pm25,file="D:/Dropbox/기후보건영향평가/2021년/결과/pm_e_MI_tot.csv")
+
+#PM2.5 뇌졸중 
+raw1.lag$e_cerebvas_tot_pm25<-raw1.lag$bgpm25diff*raw1.lag$cerebvas_tot*((1.000699 -1)/1.000699 )
+raw1.lag$e_cerebvas_tot_pm25_LL<-raw1.lag$bgpm25diff*raw1.lag$cerebvas_tot*((1.000084 -1)/1.000084 )
+raw1.lag$e_cerebvas_tot_pm25_UL<-raw1.lag$bgpm25diff*raw1.lag$cerebvas_tot*((1.001315 -1)/1.001315 )
+e_cerebvas_tot_pm25<-ddply(raw1.lag,~area+year,summarise,BG=sum(e_cerebvas_tot_pm25,na.rm=T),BG_LL=sum(e_cerebvas_tot_pm25_LL,na.rm=T),BG_UL=sum(e_cerebvas_tot_pm25_UL,na.rm=T))
+write.csv(e_cerebvas_tot_pm25,file="D:/Dropbox/기후보건영향평가/2021년/결과/pm_e_cerebvas_tot.csv")
+
+#PM2.5 출혈성 뇌졸중
+raw1.lag$e_hemoStroke_tot_pm25<-raw1.lag$bgpm25diff*raw1.lag$hemoStroke_tot*((1.000783 -1)/1.000783 )
+raw1.lag$e_hemoStroke_tot_pm25_LL<-raw1.lag$bgpm25diff*raw1.lag$hemoStroke_tot*((1.000170 -1)/1.000170 )
+raw1.lag$e_hemoStroke_tot_pm25_UL<-raw1.lag$bgpm25diff*raw1.lag$hemoStroke_tot*((1.001397 -1)/1.001397 )
+e_hemoStroke_tot_pm25<-ddply(raw1.lag,~area+year,summarise,BG=sum(e_hemoStroke_tot_pm25,na.rm=T),BG_LL=sum(e_hemoStroke_tot_pm25_LL,na.rm=T),BG_UL=sum(e_hemoStroke_tot_pm25_UL,na.rm=T))
+write.csv(e_hemoStroke_tot_pm25,file="D:/Dropbox/기후보건영향평가/2021년/결과/pm_e_hemoStroke_tot.csv")
+
+#PM2.5 허혈성 뇌졸중
+raw1.lag$e_ischStroke_tot_pm25<-raw1.lag$bgpm25diff*raw1.lag$ischStroke_tot*((1.000698 -1)/1.000698 )
+raw1.lag$e_ischStroke_tot_pm25_LL<-raw1.lag$bgpm25diff*raw1.lag$ischStroke_tot*((0.999900 -1)/0.999900 )
+raw1.lag$e_ischStroke_tot_pm25_UL<-raw1.lag$bgpm25diff*raw1.lag$ischStroke_tot*((1.001496 -1)/1.001496 )
+e_ischStroke_tot_pm25<-ddply(raw1.lag,~area+year,summarise,BG=sum(e_ischStroke_tot_pm25,na.rm=T),BG_LL=sum(e_ischStroke_tot_pm25_LL,na.rm=T),BG_UL=sum(e_ischStroke_tot_pm25_UL,na.rm=T))
+write.csv(e_ischStroke_tot_pm25,file="D:/Dropbox/기후보건영향평가/2021년/결과/pm_e_ischStroke_tot.csv")
