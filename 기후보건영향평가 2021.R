@@ -140,6 +140,38 @@ ex_bg<-ddply(raw1.lag,~area+year,summarise,BG=sum(excessm_o3bg,na.rm=T),BG_LL=su
 ex_bg<-subset(ex_bg,year>2009)
 write.csv(ex_bg,file="D:/Dropbox/기후보건영향평가/2021년/결과/o3exm.csv")
 
+#오존 비사고사망 남자
+raw1.lag$e_nonacc_m_o3bg<-raw1.lag$bgo3diff*raw1.lag$nonacc_m*0.000750119
+raw1.lag$e_nonacc_m_o3bg_LL<-raw1.lag$bgo3diff*raw1.lag$nonacc_m*0.000462761
+raw1.lag$e_nonacc_m_o3bg_UL<-raw1.lag$bgo3diff*raw1.lag$nonacc_m*0.001037394
+e_nonacc_m_bg<-ddply(raw1.lag,~area+year,summarise,BG=sum(e_nonacc_m_o3bg,na.rm=T),BG_LL=sum(e_nonacc_m_o3bg_LL,na.rm=T),BG_UL=sum(e_nonacc_m_o3bg_UL,na.rm=T))
+e_nonacc_m_bg<-subset(e_nonacc_m_bg,year>2009)
+write.csv(e_nonacc_m_bg,file="D:/Dropbox/기후보건영향평가/2021년/결과/o3_e_nonacc_m.csv")
+
+#오존 비사고 사망 여자
+raw1.lag$e_nonacc_f_o3bg<-raw1.lag$bgo3diff*raw1.lag$nonacc_f*0.000750119
+raw1.lag$e_nonacc_f_o3bg_LL<-raw1.lag$bgo3diff*raw1.lag$nonacc_f*0.000462761
+raw1.lag$e_nonacc_f_o3bg_UL<-raw1.lag$bgo3diff*raw1.lag$nonacc_f*0.001037394
+e_nonacc_f_bg<-ddply(raw1.lag,~area+year,summarise,BG=sum(e_nonacc_f_o3bg,na.rm=T),BG_LL=sum(e_nonacc_f_o3bg_LL,na.rm=T),BG_UL=sum(e_nonacc_f_o3bg_UL,na.rm=T))
+e_nonacc_f_bg<-subset(e_nonacc_f_bg,year>2009)
+write.csv(e_nonacc_f_bg,file="D:/Dropbox/기후보건영향평가/2021년/결과/o3_e_nonacc_f.csv")
+
+#오존 비사고 사망 15-64
+raw1.lag$e_nonacc_15_64_o3bg<-raw1.lag$bgo3diff*raw1.lag$nonacc_15_64*0.000750119
+raw1.lag$e_nonacc_15_64_o3bg_LL<-raw1.lag$bgo3diff*raw1.lag$nonacc_15_64*0.000462761
+raw1.lag$e_nonacc_15_64_o3bg_UL<-raw1.lag$bgo3diff*raw1.lag$nonacc_15_64*0.001037394
+e_nonacc_15_64_bg<-ddply(raw1.lag,~area+year,summarise,BG=sum(e_nonacc_15_64_o3bg,na.rm=T),BG_LL=sum(e_nonacc_15_64_o3bg_LL,na.rm=T),BG_UL=sum(e_nonacc_15_64_o3bg_UL,na.rm=T))
+e_nonacc_15_64_bg<-subset(e_nonacc_15_64_bg,year>2009)
+write.csv(e_nonacc_15_64_bg,file="D:/Dropbox/기후보건영향평가/2021년/결과/o3_e_nonacc_15_64.csv")
+
+#오존 비사고 사망 >65
+raw1.lag$e_nonacc_65_o3bg<-raw1.lag$bgo3diff*raw1.lag$nonacc_65*0.000750119
+raw1.lag$e_nonacc_65_o3bg_LL<-raw1.lag$bgo3diff*raw1.lag$nonacc_65*0.000462761
+raw1.lag$e_nonacc_65_o3bg_UL<-raw1.lag$bgo3diff*raw1.lag$nonacc_65*0.001037394
+e_nonacc_65_bg<-ddply(raw1.lag,~area+year,summarise,BG=sum(e_nonacc_65_o3bg,na.rm=T),BG_LL=sum(e_nonacc_65_o3bg_LL,na.rm=T),BG_UL=sum(e_nonacc_65_o3bg_UL,na.rm=T))
+e_nonacc_65_bg<-subset(e_nonacc_65_bg,year>2009)
+write.csv(e_nonacc_65_bg,file="D:/Dropbox/기후보건영향평가/2021년/결과/o3_e_nonacc_65.csv")
+
 #PM2.5 단기CRF
 #총사망
 library(gamm4)
@@ -187,7 +219,7 @@ raw1.lag$e_all_tot_pm25_UL<-raw1.lag$bgpm25diff*raw1.lag$all_tot*((1.000564 -1)/
 library(plyr)
 e_all_tot_pm25<-ddply(raw1.lag,~area+year,summarise,BG=sum(e_all_tot_pm25,na.rm=T),BG_LL=sum(e_all_tot_pm25_LL,na.rm=T),BG_UL=sum(e_all_tot_pm25_UL,na.rm=T))
 e_all_tot_pm25<-subset(e_all_tot_pm25,year>2009)
-write.csv(e_all_tot_pm25,file="D:/Dropbox/기후보건영향평가/2021년/결과/pm_e_all_tot.csv")
+write.csv(e_all_tot_pm25,file="D:/Dropbox/기후보건영향평가/2021년/결과/pm_e_all_tot_x.csv")
 
 #PM2.5 초과 비사고총사망
 raw1.lag$e_nonacc_tot_pm25<-raw1.lag$bgpm25diff*raw1.lag$nonacc_tot*((1.000395 -1)/1.000395 )
@@ -237,3 +269,62 @@ raw1.lag$e_ischStroke_tot_pm25_LL<-raw1.lag$bgpm25diff*raw1.lag$ischStroke_tot*(
 raw1.lag$e_ischStroke_tot_pm25_UL<-raw1.lag$bgpm25diff*raw1.lag$ischStroke_tot*((1.001496 -1)/1.001496 )
 e_ischStroke_tot_pm25<-ddply(raw1.lag,~area+year,summarise,BG=sum(e_ischStroke_tot_pm25,na.rm=T),BG_LL=sum(e_ischStroke_tot_pm25_LL,na.rm=T),BG_UL=sum(e_ischStroke_tot_pm25_UL,na.rm=T))
 write.csv(e_ischStroke_tot_pm25,file="D:/Dropbox/기후보건영향평가/2021년/결과/pm_e_ischStroke_tot.csv")
+
+#PM2.5 남자 총 사망
+raw1.lag$e_all_m_pm25<-raw1.lag$bgpm25diff*raw1.lag$all_m*((1.000337-1)/1.000337)
+raw1.lag$e_all_m_pm25_LL<-raw1.lag$bgpm25diff*raw1.lag$all_m*((1.000109-1)/1.000109)
+raw1.lag$e_all_m_pm25_UL<-raw1.lag$bgpm25diff*raw1.lag$all_m*((1.000564 -1)/1.000564 )
+e_all_m_pm25<-ddply(raw1.lag,~area+year,summarise,BG=sum(e_all_m_pm25,na.rm=T),BG_LL=sum(e_all_m_pm25_LL,na.rm=T),BG_UL=sum(e_all_m_pm25_UL,na.rm=T))
+e_all_m_pm25<-subset(e_all_m_pm25,year>2009)
+write.csv(e_all_m_pm25,file="D:/Dropbox/기후보건영향평가/2021년/결과/pm_e_all_m.csv")
+
+#PM2.5 총사망 여자
+raw1.lag$e_all_f_pm25<-raw1.lag$bgpm25diff*raw1.lag$all_f*((1.000337-1)/1.000337)
+raw1.lag$e_all_f_pm25_LL<-raw1.lag$bgpm25diff*raw1.lag$all_f*((1.000109-1)/1.000109)
+raw1.lag$e_all_f_pm25_UL<-raw1.lag$bgpm25diff*raw1.lag$all_f*((1.000564 -1)/1.000564 )
+e_all_f_pm25<-ddply(raw1.lag,~area+year,summarise,BG=sum(e_all_f_pm25,na.rm=T),BG_LL=sum(e_all_f_pm25_LL,na.rm=T),BG_UL=sum(e_all_f_pm25_UL,na.rm=T))
+e_all_f_pm25<-subset(e_all_f_pm25,year>2009)
+write.csv(e_all_f_pm25,file="D:/Dropbox/기후보건영향평가/2021년/결과/pm_e_all_f.csv")
+
+#pm2.5 총사망 15-64
+raw1.lag$e_all_15_64_pm25<-raw1.lag$bgpm25diff*raw1.lag$all_15_64*((1.000337-1)/1.000337)
+raw1.lag$e_all_15_64_pm25_LL<-raw1.lag$bgpm25diff*raw1.lag$all_15_64*((1.000109-1)/1.000109)
+raw1.lag$e_all_15_64_pm25_UL<-raw1.lag$bgpm25diff*raw1.lag$all_15_64*((1.000564 -1)/1.000564 )
+e_all_15_64_pm25<-ddply(raw1.lag,~area+year,summarise,BG=sum(e_all_15_64_pm25,na.rm=T),BG_LL=sum(e_all_15_64_pm25_LL,na.rm=T),BG_UL=sum(e_all_15_64_pm25_UL,na.rm=T))
+e_all_15_64_pm25<-subset(e_all_15_64_pm25,year>2009)
+write.csv(e_all_15_64_pm25,file="D:/Dropbox/기후보건영향평가/2021년/결과/pm_e_all_15_64.csv")
+
+#pm2.5 총사망 >65
+raw1.lag$e_all_65_pm25<-raw1.lag$bgpm25diff*raw1.lag$all_65*((1.000337-1)/1.000337)
+raw1.lag$e_all_65_pm25_LL<-raw1.lag$bgpm25diff*raw1.lag$all_65*((1.000109-1)/1.000109)
+raw1.lag$e_all_65_pm25_UL<-raw1.lag$bgpm25diff*raw1.lag$all_65*((1.000564 -1)/1.000564 )
+e_all_65_pm25<-ddply(raw1.lag,~area+year,summarise,BG=sum(e_all_65_pm25,na.rm=T),BG_LL=sum(e_all_65_pm25_LL,na.rm=T),BG_UL=sum(e_all_65_pm25_UL,na.rm=T))
+e_all_65_pm25<-subset(e_all_65_pm25,year>2009)
+write.csv(e_all_65_pm25,file="D:/Dropbox/기후보건영향평가/2021년/결과/pm_e_all_65.csv")
+
+
+##초과 입원자 수
+#데이터셋
+nhis<-read.csv(file="D:/Dropbox/기후보건영향평가/2021년/자료/nhis_dailycount_ver1.csv")
+nhis$mcvd_tot<-nhis$ischHD_tot+nhis$cerebvas_tot
+nhis$mcvd_m<-nhis$ischHD_m+nhis$cerebvas_m
+nhis$mcvd_f<-nhis$ischHD_f+nhis$cerebvas_f
+nhis$mcvd_15_64<-nhis$ischHD_age1564+nhis$cerebvas_age1564
+nhis$mcvd_65<-nhis$ischHD_age65+nhis$cerebvas_age65
+nhis$bgpm25diff<-raw1.lag$bgpm25diff
+
+#주요 심뇌혈관 질환 초과 입원
+nhis$e_mcvd_tot_pm25<-nhis$bgpm25diff*nhis$mcvd_tot*((1.0010-1)/1.0010)
+nhis$e_mcvd_tot_pm25_LL<-nhis$bgpm25diff*nhis$mcvd_tot*((0.9989-1)/0.9989)
+nhis$e_mcvd_tot_pm25_UL<-nhis$bgpm25diff*nhis$mcvd_tot*((1.0031 -1)/1.0031 )
+e_mcvd_tot_pm25<-ddply(nhis,~area+year,summarise,BG=sum(e_mcvd_tot_pm25,na.rm=T),BG_LL=sum(e_mcvd_tot_pm25_LL,na.rm=T),BG_UL=sum(e_mcvd_tot_pm25_UL,na.rm=T))
+e_mcvd_tot_pm25<-subset(e_mcvd_tot_pm25,year>2009)
+write.csv(e_mcvd_tot_pm25,file="D:/Dropbox/기후보건영향평가/2021년/결과/pm_e_mcvd_tot.csv")
+
+#허혈섬 심질환 초과 입원
+nhis$e_ischHD_tot_pm25<-nhis$bgpm25diff*nhis$ischHD_tot*((1.0058-1)/1.0058)
+nhis$e_ischHD_tot_pm25_LL<-nhis$bgpm25diff*nhis$ischHD_tot*((1.0027-1)/1.0027)
+nhis$e_ischHD_tot_pm25_UL<-nhis$bgpm25diff*nhis$ischHD_tot*((1.0089 -1)/1.0089 )
+e_ischHD_tot_pm25<-ddply(nhis,~area+year,summarise,BG=sum(e_ischHD_tot_pm25,na.rm=T),BG_LL=sum(e_ischHD_tot_pm25_LL,na.rm=T),BG_UL=sum(e_ischHD_tot_pm25_UL,na.rm=T))
+e_ischHD_tot_pm25<-subset(e_ischHD_tot_pm25,year>2009)
+write.csv(e_ischHD_tot_pm25,file="D:/Dropbox/기후보건영향평가/2021년/결과/pm_e_ischHD_tot.csv")

@@ -31,14 +31,33 @@ daejon_l$ddd<-1:6939
 ulsan_l$ddd<-1:6939
 gwangju_l$ddd<-1:6939
 
+
+#warm and cold season
+seoul_l_w<-subset(seoul_l,month>3 & month<10)
+seoul_l_c<-subset(seoul_l,month>9 | month<4)
+
 library(mediation)
 library(mgcv)
 
+
 #temp. and ozone mediation in Seoul
-med.fit<-gam(o3_ppb~s(meantemp_m1)+meanhumi+rain+windspeed+dow+s(ddd,k=4*14),family=poisson, data=seoul_l)
-out.fit<-gam(all_tot~o3_ppb+s(meantemp_m1)+meanhumi+rain+windspeed+dow+s(ddd,k=4*14),family=poisson, data=seoul_l)
+med.fit<-gam(o3_ppb~s(meantemp)+meanhumi+rain+windspeed+s(ddd,k=4*14),family=gaussian(), data=seoul_l)
+out.fit<-gam(all_tot~o3_ppb+s(meantemp)+meanhumi+rain+windspeed+dow+s(ddd,k=4*14),family=poisson(), data=seoul_l)
 summary(med.fit)
+plot(med.fit)
 summary(out.fit)
-med.out<-mediate(med.fit, out.fit, treat="meantemp_m1", mediator="o3_ppb", boot=T, sims=100)
+plot(out.fit)
+med.out<-mediate(med.fit, out.fit, treat="meantemp", mediator="o3_ppb", boot=T, sims=10)
 summary(med.out)
 plot(med.out)
+
+##in warm season
+med.fit.w<-gam(o3_ppb~meantemp+meanhumi+rain+windspeed+s(ddd,k=4*14),family=gaussian(), data=seoul_l_w)
+out.fit.w<-gam(all_tot~o3_ppb+meantemp+meanhumi+rain+windspeed+dow+s(ddd,k=4*14),family=poisson(), data=seoul_l_w)
+summary(med.fit.w)
+plot(med.fit.w)
+summary(out.fit.w)
+plot(out.fit.w)
+med.out.w<-mediate(med.fit.w, out.fit.w, treat="meantemp", mediator="o3_ppb", boot=T, sims=10)
+summary(med.out.w)
+plot(med.out.w)
